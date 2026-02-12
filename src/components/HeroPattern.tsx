@@ -2,7 +2,7 @@ import { GridPattern } from '@/components/GridPattern'
 
 export function HeroPattern() {
   return (
-    <div className="absolute inset-0 -z-10 mx-0 max-w-none overflow-hidden">
+    <div className="fixed inset-0 -z-10 mx-0 max-w-none overflow-hidden">
       <div className="absolute top-0 left-1/2 -ml-152 h-100 w-325 dark:mask-[linear-gradient(white,transparent)]">
         <div className="absolute inset-0 bg-linear-to-r from-[#0078d4] to-[#2b88d8] mask-[radial-gradient(farthest-side_at_top,white,transparent)] opacity-30 dark:from-[#0078d4]/30 dark:to-[#2b88d8]/30 dark:opacity-100">
           <GridPattern

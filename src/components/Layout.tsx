@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation'
 import { EditLink } from '@/components/EditLink'
 import { Footer } from '@/components/Footer'
 import { Header } from '@/components/Header'
+import { HeroPattern } from '@/components/HeroPattern'
 import { Navigation } from '@/components/Navigation'
 import { SectionProvider, type Section } from '@/components/SectionProvider'
 import { TableOfContents } from '@/components/TableOfContents'
@@ -24,6 +25,7 @@ export function Layout({
   return (
     <SectionProvider sections={allSections[pathname] ?? []}>
       <div className="h-full lg:ml-72 xl:ml-80">
+        <HeroPattern />
         <motion.header
           layoutScroll
           className="contents lg:pointer-events-none lg:fixed lg:inset-0 lg:z-40 lg:flex"
