@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { forwardRef } from 'react'
 
 import { Button } from '@/components/Button'
+import { ExternalLinkIcon } from '@/components/icons/ExternalLinkIcon'
 import {
   MobileNavigation,
   useIsInsideMobileNavigation,
@@ -17,17 +18,23 @@ import Image from 'next/image'
 function TopLevelNavItem({
   href,
   children,
+  external = false,
 }: {
   href: string
   children: React.ReactNode
+  external?: boolean
 }) {
   return (
     <li>
       <Link
         href={href}
-        className="text-sm/5 text-zinc-600 transition hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+        className="inline-flex items-center gap-1 text-sm/5 text-zinc-600 transition hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+        {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
       >
         {children}
+        {external && (
+          <ExternalLinkIcon className="h-3.5 w-3.5 stroke-current" />
+        )}
       </Link>
     </li>
   )
@@ -88,10 +95,16 @@ export const Header = forwardRef<
         <nav className="hidden md:block">
           <ul role="list" className="flex items-center gap-8">
             <TopLevelNavItem href="/">Docs Home</TopLevelNavItem>
-            <TopLevelNavItem href="https://www.powerplatformtoolbox.com">
+            <TopLevelNavItem
+              href="https://www.powerplatformtoolbox.com"
+              external
+            >
               Main Website
             </TopLevelNavItem>
-            <TopLevelNavItem href="https://github.com/PowerPlatformToolBox">
+            <TopLevelNavItem
+              href="https://github.com/PowerPlatformToolBox"
+              external
+            >
               GitHub
             </TopLevelNavItem>
           </ul>

@@ -402,8 +402,9 @@ export function Search() {
         className="hidden h-8 w-full items-center gap-2 rounded-full bg-white pr-3 pl-2 text-sm text-zinc-500 ring-1 ring-zinc-900/10 transition hover:ring-zinc-900/20 lg:flex dark:bg-white/5 dark:text-zinc-400 dark:ring-white/10 dark:ring-inset dark:hover:ring-white/20"
         {...buttonProps}
       >
-        <SearchIcon className="h-5 w-5 stroke-current" />
-        Find something...
+        <SearchIcon className="h-5 w-5 flex-shrink-0 stroke-current" />
+        <span className="hidden xl:inline">Find something...</span>
+        <span className="xl:hidden">Search</span>
         <kbd className="ml-auto text-2xs text-zinc-400 dark:text-zinc-500">
           <kbd className="font-sans">{modifierKey}</kbd>
           <kbd className="font-sans">K</kbd>
