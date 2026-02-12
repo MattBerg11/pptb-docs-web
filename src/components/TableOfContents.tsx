@@ -5,6 +5,8 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
+import { ChevronDownIcon } from '@/components/icons/ChevronDownIcon'
+
 interface Heading {
   id: string
   title: string
@@ -63,22 +65,12 @@ export function TableOfContents() {
           className="flex w-full items-center justify-between rounded-lg bg-zinc-100 px-4 py-2 text-left text-sm font-semibold text-zinc-900 dark:bg-zinc-900 dark:text-white"
         >
           On this page
-          <svg
+          <ChevronDownIcon
             className={clsx(
               'h-4 w-4 transition-transform',
               isOpen && 'rotate-180',
             )}
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M19 14l-7 7m0 0l-7-7m7 7V3"
-            />
-          </svg>
+          />
         </button>
         {isOpen && (
           <nav

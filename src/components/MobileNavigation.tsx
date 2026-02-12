@@ -11,35 +11,9 @@ import { Suspense, createContext, useContext } from 'react'
 import { create } from 'zustand'
 
 import { Header } from '@/components/Header'
+import { MenuIcon } from '@/components/icons/MenuIcon'
+import { XIcon } from '@/components/icons/XIcon'
 import { Navigation } from '@/components/Navigation'
-
-function MenuIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
-  return (
-    <svg
-      viewBox="0 0 10 9"
-      fill="none"
-      strokeLinecap="round"
-      aria-hidden="true"
-      {...props}
-    >
-      <path d="M.5 1h9M.5 8h9M.5 4.5h9" />
-    </svg>
-  )
-}
-
-function XIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
-  return (
-    <svg
-      viewBox="0 0 10 9"
-      fill="none"
-      strokeLinecap="round"
-      aria-hidden="true"
-      {...props}
-    >
-      <path d="m1.5 1 7 7M8.5 1l-7 7" />
-    </svg>
-  )
-}
 
 const IsInsideMobileNavigationContext = createContext(false)
 

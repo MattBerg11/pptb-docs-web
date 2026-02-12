@@ -3,6 +3,8 @@ import Link from 'next/link'
 
 import { Feedback } from '@/components/Feedback'
 import { Heading } from '@/components/Heading'
+import { InfoIcon } from '@/components/icons/InfoIcon'
+import { WarningIcon } from '@/components/icons/WarningIcon'
 import { Prose } from '@/components/Prose'
 
 export const a = Link
@@ -24,36 +26,6 @@ export const h2 = function H2(
   props: Omit<React.ComponentPropsWithoutRef<typeof Heading>, 'level'>,
 ) {
   return <Heading level={2} {...props} />
-}
-
-function InfoIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
-  return (
-    <svg viewBox="0 0 16 16" aria-hidden="true" {...props}>
-      <circle cx="8" cy="8" r="8" strokeWidth="0" />
-      <path
-        fill="none"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="1.5"
-        d="M6.75 7.75h1.5v3.5"
-      />
-      <circle cx="8" cy="4" r=".5" fill="none" />
-    </svg>
-  )
-}
-export function WarningIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 16 16"
-      width="1em"
-      height="1em"
-      {...props}
-    >
-      <path d="m8 1.45l6.705 13.363H1.296zM8 0c-.345 0-.69.233-.951.698L.22 14.309C-.303 15.239.142 16 1.209 16h13.583c1.067 0 1.512-.761.989-1.691L8.952.698C8.69.233 8.346 0 8.001 0z"></path>
-      <path d="M9 13a1 1 0 1 1-2 0a1 1 0 0 1 2 0m-1-2a1 1 0 0 1-1-1V7a1 1 0 0 1 2 0v3a1 1 0 0 1-1 1"></path>
-    </svg>
-  )
 }
 
 export function Note({ children }: { children: React.ReactNode }) {
