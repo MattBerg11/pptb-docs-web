@@ -4,7 +4,6 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
-import { EditLink } from '@/components/EditLink'
 import { Footer } from '@/components/Footer'
 import { Header } from '@/components/Header'
 import { HeroPattern } from '@/components/HeroPattern'
@@ -47,9 +46,6 @@ export function Layout({
           </div>
         </motion.header>
         <div className="relative flex h-full flex-col px-4 pt-14 sm:px-6 lg:px-8">
-          <div className="absolute top-18 right-2 mt-8 sm:right-2 lg:fixed lg:top-8 lg:right-8 lg:z-30">
-            <EditLink />
-          </div>
           <div className="flex flex-1">
             <main className="min-w-0 flex-auto">{children}</main>
             <TableOfContents />

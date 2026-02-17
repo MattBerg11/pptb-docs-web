@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
-import { ArrowDownIcon } from '@/components/icons/ArrowDownIcon'
+import { ArrowIcon } from '@/components/icons/ArrowIcon'
 
 interface Heading {
   id: string
@@ -65,11 +65,9 @@ export function TableOfContents() {
           className="flex w-full items-center justify-between rounded-lg bg-zinc-100 px-4 py-2 text-left text-sm font-semibold text-zinc-900 dark:bg-zinc-800 dark:text-white"
         >
           On this page
-          <ArrowDownIcon
-            className={clsx(
-              'h-4 w-4 transition-transform',
-              isOpen && 'rotate-180',
-            )}
+          <ArrowIcon
+            direction={isOpen ? 'up' : 'down'}
+            className="h-4 w-4 transition-transform"
           />
         </button>
         {isOpen && (

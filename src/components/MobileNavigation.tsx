@@ -12,7 +12,7 @@ import { create } from 'zustand'
 
 import { Header } from '@/components/Header'
 import { MenuIcon } from '@/components/icons/MenuIcon'
-import { XIcon } from '@/components/icons/XIcon'
+import { CloseIcon } from '@/components/icons/CloseIcon'
 import { Navigation } from '@/components/Navigation'
 
 const IsInsideMobileNavigationContext = createContext(false)
@@ -73,7 +73,7 @@ export const useMobileNavigationStore = create<{
 export function MobileNavigation() {
   const isInsideMobileNavigation = useIsInsideMobileNavigation()
   const { isOpen, toggle, close } = useMobileNavigationStore()
-  const ToggleIcon = isOpen ? XIcon : MenuIcon
+  const ToggleIcon = isOpen ? CloseIcon : MenuIcon
 
   return (
     <IsInsideMobileNavigationContext.Provider value={true}>

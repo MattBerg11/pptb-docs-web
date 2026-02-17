@@ -1,6 +1,7 @@
 import clsx from 'clsx'
 import Link from 'next/link'
 
+import { EditLink } from '@/components/EditLink'
 import { Feedback } from '@/components/Feedback'
 import { Heading } from '@/components/Heading'
 import { InfoIcon } from '@/components/icons/InfoIcon'
@@ -17,6 +18,9 @@ export function wrapper({ children }: { children: React.ReactNode }) {
       <Prose className="flex-auto">{children}</Prose>
       <footer className="mx-auto mt-16 w-full max-w-2xl lg:max-w-5xl">
         <Feedback />
+        <div className="mt-6">
+          <EditLink />
+        </div>
       </footer>
     </article>
   )

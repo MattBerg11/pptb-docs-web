@@ -1,4 +1,4 @@
-export function XIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
+export function CloseIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
     <svg
       viewBox="0 0 10 9"
