@@ -11,7 +11,6 @@ export const sections = [
   { title: 'Choose a User', id: 'choose-a-user' },
   { title: 'Know When It Is Active', id: 'know-when-it-is-active' },
   { title: 'Change or Stop Impersonating', id: 'change-or-stop-impersonating' },
-  { title: 'Multiple Connections', id: 'multiple-connections' },
   { title: 'What Gets Impersonated', id: 'what-gets-impersonated' },
   { title: 'For Tool Developers', id: 'for-tool-developers' },
   { title: 'Troubleshooting', id: 'troubleshooting' },
@@ -32,55 +31,69 @@ Impersonation is useful when you want to:
 - Reproduce an "access denied" error that only one user sees
 - Create or update records on behalf of another user
 
-How it works:
+Things to keep in mind:
 
 - Impersonation is set **per open tool tab and per connection**
-- Other tabs are not affected, even if they use the same connection
-- A tool opened on the same connection starts without impersonation
 - Impersonation is not saved. Closing the tab or the app ends it.
-
-Behind the scenes, Power Platform ToolBox adds the `CallerObjectId` header to the tool's Dataverse requests. Dataverse then runs those requests as the selected user. See Microsoft's [Impersonate another user](https://learn.microsoft.com/power-apps/developer/data-platform/impersonate-another-user) for details.
+- Duplicating a tab that has impersonation active, opens the new tab without impersonation.
+- Behind the scenes, Power Platform ToolBox adds the `CallerObjectId` header to the tool's Dataverse requests. Dataverse then runs those requests as the selected user.
+  - For more information regarding impersonation, see Microsoft's [Impersonate another user](https://learn.microsoft.com/power-apps/developer/data-platform/impersonate-another-user) for details.
 
 ## Before You Start {{ anchor: true }}
 
 Impersonation is enforced by Dataverse, not by Power Platform ToolBox. Before you start, check the following:
 
-- **Your account needs the "Act on Behalf of Another User" privilege** (`prvActOnBehalfOfAnotherUser`). The **Delegate** security role includes it.
+- **Your account needs the "Act on Behalf of Another User" privilege** (`prvActOnBehalfOfAnotherUser`).
 - **The privilege must be assigned to your user directly.** Dataverse does not allow it to be inherited through a team.
-- **The user you impersonate must be enabled** and linked to a Microsoft Entra ID account. Disabled users and users without an Entra object ID are not listed.
 
 <Note type="information">
-  Dataverse uses the **overlap** of your privileges and the impersonated user's privileges. An action only succeeds if both of you are allowed to do it. Impersonation cannot give anyone more access than they already have.
+  Dataverse uses the **overlap** of your privileges and the impersonated user's
+  privileges. An action only succeeds if both of you are allowed to do it.
+  Impersonation cannot give anyone more access than they already have.
 </Note>
 
 <Note type="warning">
-  Records you create or update while impersonating are saved as the impersonated user. Dataverse records your account in the **Created By (Delegate)** and **Modified By (Delegate)** columns. Be careful when impersonating in production environments.
+  Records you create or update while impersonating are saved as the impersonated
+  user. Dataverse records your account in the **Created By (Delegate)** and
+  **Modified By (Delegate)** columns. Be careful when impersonating in
+  production environments.
 </Note>
 
 ## Start Impersonating {{ anchor: true }}
 
 ### When you open a tool
 
-1. Open a tool from the sidebar.
-2. In the connection screen, select the connection you want to use.
-3. Check **Impersonate as another user** under that connection.
-4. Confirm your connection.
-5. The **Impersonate User** window opens. [Choose a user](#choose-a-user).
-
-The tool opens with impersonation already active.
+1. In the connection screen, select the connection you want to use.
+2. Check **Impersonate as another user** under that connection.
+3. Confirm your connection.
+4. The **Impersonate User** window will open, providing you a list of users to select. [Choose a user](#choose-a-user) to begin impersonation, or select **Skip** to launch the tool under your user context.
 
 ### On a tool that is already open
 
+<Note type="information">
+  When changing connections, the checkbox state is not retained for an
+  impersonated tab, and must be checked before confirmation for it to continue
+  to apply. If you confirm the same connection with the box unchecked,
+  impersonation is turned off.
+</Note>
+
+### Primary Connection
+
 1. Right-click the tool's tab.
-2. Select **Change Connection** (or **Manage Connections…** for tools that use more than one connection).
+2. Select **Manage Connections...**.
 3. Check **Impersonate as another user** under the connection.
 4. Confirm, then [choose a user](#choose-a-user).
 
-For additional connections (Connection 2 and up), you can also use the status bar:
+### Secondary Connection
 
-1. Right-click the connection square in the status bar.
-2. Select **Impersonate…**.
-3. [Choose a user](#choose-a-user).
+1. Left-click the connection button to open a dialog to replace **just that connection**.
+2. Right-click the connection button to bring up a menu to **Change Impersonated User**, or **Change Connection**.
+
+### Multiple Connections
+
+You can assign the **same connection** to more than one slot and impersonate a **different user** in each. This makes it easy to compare what two users can see in the same environment, side by side.
+
+See [Authentication: Multiple Connections](/authentication#multiple-connections) for how multi-connection tools work.
 
 ## Choose a User {{ anchor: true }}
 
@@ -93,69 +106,44 @@ The **Impersonate User** window shows the connection name and environment at the
 - Select **Skip** (or close the window) to continue **without** impersonation
 
 <Note type="information">
-  If the user list cannot be loaded, the window shows an error. Search again, or select **Skip** to continue without impersonation.
+  If the user list cannot be loaded, the window will display an error. Search
+  again, or select **Skip** to continue without impersonation. If the error
+  continues, check the ToolBox DevTools for any console errors, and ensure you
+  have the necessary permissions in the environment.
 </Note>
 
 ## Know When It Is Active {{ anchor: true }}
 
 Power Platform ToolBox shows impersonation in three places:
 
-| Where | What you see |
-| --- | --- |
-| **Tool tab** | An impersonation icon on the tab. Hover to see who you are impersonating. |
-| **Banner above the tool** | "Dataverse impersonation active", followed by the user for the primary connection and, if set, Connection 2. |
-| **Status bar** | Additional connection squares show an impersonation icon. Hover to see the user's name. |
+| Where                     | What you see                                                                                                           |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| **Tool tab**              | A user shield icon is displayed. Hover over the icon in the tab to see who you are impersonating.                      |
+| **Banner above the tool** | "Dataverse impersonation active", followed by the user for the primary connection and, if set, Connection 2.           |
+| **Status bar**            | Additional connection squares show an impersonation icon. Hover over the respective connection to see the user's name. |
 
 ## Change or Stop Impersonating {{ anchor: true }}
 
-### Primary connection
-
 1. Right-click the tool's tab.
-2. Select **Change Connection** (or **Manage Connections…**).
-3. Choose what you want:
-   - **Change user:** keep **Impersonate as another user** checked and pick a different user
-   - **Stop:** leave **Impersonate as another user** unchecked and confirm
-
-<Note type="information">
-  Confirming **Change Connection** or **Manage Connections…** always applies the checkbox state. If you confirm with the box unchecked, impersonation is turned off for that connection.
-</Note>
-
-### Additional connections
-
-Right-click the connection square in the status bar, then select:
-
-- **Change Impersonated User…** to pick a different user
-- **Stop Impersonating** to go back to your own account
-
-<Note type="important">
-  Switching a connection to a different environment ends impersonation for that connection. Clearing a connection does the same.
-</Note>
-
-## Multiple Connections {{ anchor: true }}
-
-For tools that use more than one connection, impersonation is set **separately for each connection**. For example:
-
-- Primary connection: impersonating a sales user
-- Connection 2: your own account
-
-You can also assign the **same connection** to more than one slot and impersonate a **different user** in each. This makes it easy to compare what two users can see in the same environment, side by side. The connection screen warns that the connection is "Also assigned to another slot". This is expected, and you can still confirm.
-
-See [Authentication: Multiple Connections](/authentication#multiple-connections) for how multi-connection tools work.
+2. Select **Manage Connections...**.
+3. Select the connection you want to apply and confirm.
 
 ## What Gets Impersonated {{ anchor: true }}
 
 Impersonation applies to Dataverse **data** operations made by the tool:
 
-| Impersonated | Not impersonated (runs as you) |
-| --- | --- |
-| `create`, `retrieve`, `update`, `delete` | `executeBatch`, `executeTransaction` |
-| `createMultiple`, `updateMultiple` | Metadata reads (`getEntityMetadata`, `getAllEntitiesMetadata`, `getEntityRelatedMetadata`, `getCSDLDocument`) |
-| `retrieveMultiple`, `fetchXmlQuery`, `queryData` | `getSolutions`, `publishCustomizations`, `deploySolution`, `getImportJobStatus` |
-| `associate`, `disassociate` | Table, column, relationship, and option set changes |
-| `execute` (actions and functions) | Power Platform API calls |
+| Impersonated                                     | Not impersonated (runs as you)                                                                                |
+| ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------- |
+| `create`, `retrieve`, `update`, `delete`         | `executeBatch`, `executeTransaction`                                                                          |
+| `createMultiple`, `updateMultiple`               | Metadata reads (`getEntityMetadata`, `getAllEntitiesMetadata`, `getEntityRelatedMetadata`, `getCSDLDocument`) |
+| `retrieveMultiple`, `fetchXmlQuery`, `queryData` | `getSolutions`, `publishCustomizations`, `deploySolution`, `getImportJobStatus`                               |
+| `associate`, `disassociate`                      | Table, column, relationship, and option set changes                                                           |
+| `execute` (actions and functions)                | Power Platform API calls                                                                                      |
 
 <Note type="warning">
-  If a tool uses batch operations, metadata, or the Power Platform API, those requests still run as **your** account. Results from those calls do not reflect the impersonated user's access.
+  If a tool uses batch operations, metadata, or the Power Platform API, those
+  requests still run as **your** account. Results from those calls do not
+  reflect the impersonated user's access.
 </Note>
 
 ## For Tool Developers {{ anchor: true }}
@@ -173,7 +161,7 @@ Design your tool to handle permission errors cleanly. When a user impersonates s
 
 ### Requests fail with a privilege error
 
-**Cause:** Your account does not have the "Act on Behalf of Another User" privilege, or it is only granted through a team.
+**Cause:** Your account does not have the "Act on Behalf of Another User" privilege.
 
 **Solution:**
 
@@ -194,14 +182,5 @@ Search by email address if a name search does not find them.
 **Possible causes:**
 
 - The tool is using batch, metadata, or Power Platform API calls, which are [not impersonated](#what-gets-impersonated)
-- Impersonation was set on a different connection slot than the one the tool is using
+- Impersonation was set on a different connection slot than the one the tool is using for the action
 - The tab was duplicated or reopened. New tabs start without impersonation.
-
-<div className="not-prose mt-6 flex gap-3">
-  <Button href="/authentication" variant="text" arrow="left">
-    <>Back to Authentication</>
-  </Button>
-  <Button href="/tool-installation/side-by-side-view" variant="text" arrow="right">
-    <>Side-by-Side Tool View</>
-  </Button>
-</div>
