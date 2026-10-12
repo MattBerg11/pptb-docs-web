@@ -35,7 +35,7 @@ Things to keep in mind:
 
 - Impersonation is set **per open tool tab and per connection**
 - Impersonation is not saved. Closing the tab or the app ends it.
-- Duplicating a tab that has impersonation active, opens the new tab without impersonation.
+- Duplicating a tab that has impersonation active opens the new tab without impersonation.
 - Behind the scenes, Power Platform ToolBox adds the `CallerObjectId` header to the tool's Dataverse requests. Dataverse then runs those requests as the selected user.
   - For more information regarding impersonation, see Microsoft's [Impersonate another user](https://learn.microsoft.com/power-apps/developer/data-platform/impersonate-another-user) for details.
 
